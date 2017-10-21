@@ -27,8 +27,8 @@ public class SwaggerConfig {
 
     private ApiInfo metaData() {
         return new ApiInfoBuilder()
-                .title("API REST - Application TattooApp")
-                .description("Através desta API será possível efetuar a manutenção e obtenção de diversos recursos do aplicativo TattooApp.")
+                .title("API REST - Application MatchProject")
+                .description("Através desta API será possível efetuar a manutenção e obtenção de diversos recursos do aplicativo MatchProject.")
                 .termsOfServiceUrl("https://github.com/fabiomirgo")
                 .contact(new Contact("Fabio Miranda Gonçalves", "https://www.linkedin.com/in/fabio-miranda-gon%C3%A7alves-b3185097/", "fabio.mirgo@gmail.com"))
                 .license("Licença")

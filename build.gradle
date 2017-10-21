@@ -85,7 +85,7 @@ dependencies {
     compile(group: 'com.fasterxml.jackson.jaxrs', name: 'jackson-jaxrs-json-provider')
 
     // h2
-    testCompile('com.h2database:h2')
+    compile('com.h2database:h2')
 
     // Lombok
     compileOnly('org.projectlombok:lombok')
