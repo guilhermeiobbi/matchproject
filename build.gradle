@@ -1,0 +1,118 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.0.M3'
+    }
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+//Consultar https://plugins.gradle.org/
+plugins {
+    id 'java'
+    id 'eclipse-wtp'
+    id 'org.springframework.boot' version '1.5.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.3.RELEASE'
+    //id 'io.ratpack.ratpack-groovy' version '1.4.5' // Estudar a utilização do ratpack -- aparenta ser poderoso https://ratpack.io/ --> https://objectpartners.com/2015/05/12/my-first-ratpack-app-what-i-learned/
+}
+
+gradle.startParameter.showStacktrace = org.gradle.api.logging.configuration.ShowStacktrace.ALWAYS //Sempre mostrar stacktracer ao rodar build.gradle
+sourceCompatibility = 1.8 //Específica versão do Java utilizado para compilar o aplicativo
+version = '1.0.0-SNAPSHOT'
+
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
+    jcenter()
+}
+
+
+configurations {
+    providedRuntime
+}
+
+test {
+    testLogging {
+        exceptionFormat = 'full'
+    }
+}
+
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.0'
+}
+
+task stage(type: Copy, dependsOn: [clean, build]) {
+    from jar.archivePath
+    into project.rootDir
+    rename {
+        'app.jar'
+    }
+}
+stage.mustRunAfter(clean)
+
+clean << {
+    project.file('app.jar').delete()
+}
+
+ext['tomcat.version'] = '9.0.0.M26'
+
+dependencies {
+    // Spring Framework
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-jdbc')
+    // compile('org.springframework.boot:spring-boot-starter-security')
+    compile('org.springframework.boot:spring-boot-starter-validation')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile("org.springframework.boot:spring-boot-devtools")
+    compile("org.springframework.boot:spring-boot-starter-actuator") {
+        exclude group: "org.springframework.boot:spring-boot-autoconfigure"
+    }
+
+    // Jackson
+    compile(group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310')
+    compile(group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8')
+    compile(group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml')
+    compile(group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations')
+    compile(group: 'com.fasterxml.jackson.jaxrs', name: 'jackson-jaxrs-json-provider')
+
+    // h2
+    testCompile('com.h2database:h2')
+
+    // Lombok
+    compileOnly('org.projectlombok:lombok')
+
+    // Hikari Pool
+    compile group: 'com.zaxxer', name: 'HikariCP', version: '2.6.1'
+
+    // Metrics
+    compile('com.ryantenney.metrics:metrics-spring:3.1.3') {
+        exclude group: 'com.codahale.metrics'
+        exclude group: 'org.springframework'
+    }
+    compile 'io.dropwizard.metrics:metrics-core:4.0.0-alpha3'
+    compile 'io.dropwizard.metrics:metrics-annotation:4.0.0-alpha3'
+
+    // Heroku Logs
+    compile group: 'io.airbrake', name: 'airbrake-java', version: '2.2.8'
+
+    // Swagger
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
+
+    // Test
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.security:spring-security-test')
+    testCompile(group: 'junit', name: 'junit')
+
+    // Tomcat
+    providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+}
