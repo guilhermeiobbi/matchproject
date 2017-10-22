@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,10 @@ public class ApplicantService {
 
     @Autowired
     private ApplicantRepository applicantRepository;
+
+    public List<ApplicantEntity> findAllOrderByPercentDesc() {
+        return applicantRepository.findAllOrderByPercentDesc();
+    }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void process(ApplicantRequestDTO requestDTO) {
@@ -45,34 +50,38 @@ public class ApplicantService {
 
     private ApplicantEntity calculatePercents(ApplicantEntity applicantEntity) {
 
-        final BigDecimal applicantPercentSum = new BigDecimal(0);
+        BigDecimal applicantPercentSum = new BigDecimal(0);
 
         for (ApplicantProfileTypeEntity profile : applicantEntity.getProfiles()) {
 
-            final BigDecimal characteristicMetricSum = new BigDecimal(0);
+            BigDecimal characteristicMetricSum = new BigDecimal(0);
 
             for (ApplicantCharacteristicEntity characteristic : profile.getCharacteristics()) {
 
-                final BigDecimal percentMetricSum = new BigDecimal(0);
-                for (ApplicantCharacteristicMetricsEntity metric : characteristic.getMetrics())
-                    percentMetricSum.add(metric.getPercent());
+                BigDecimal percentMetricSum = new BigDecimal(0);
+                for (ApplicantCharacteristicMetricsEntity metric : characteristic.getMetrics()) {
+
+                    BigDecimal b = metric.getPercent();
+
+                    percentMetricSum = percentMetricSum.add(new BigDecimal(b.toString()));
+                }
 
                 if (percentMetricSum.compareTo(BigDecimal.ZERO) > 0) {
-                    percentMetricSum.divide(new BigDecimal(characteristic.getMetrics().size() * 100));
-                    percentMetricSum.multiply(new BigDecimal(100));
+                    percentMetricSum = percentMetricSum.divide(new BigDecimal(characteristic.getMetrics().size() * 100), 5, RoundingMode.HALF_UP);
+                    percentMetricSum = percentMetricSum.multiply(new BigDecimal(100));
                     characteristic.setPercent(percentMetricSum);
                 }
 
-                characteristicMetricSum.add(characteristic.getPercent());
+                characteristicMetricSum = characteristicMetricSum.add(characteristic.getPercent());
             }
 
             if (characteristicMetricSum.compareTo(BigDecimal.ZERO) > 0) {
-                characteristicMetricSum.divide(new BigDecimal(profile.getCharacteristics().size() * 100));
-                characteristicMetricSum.multiply(new BigDecimal(100));
+                characteristicMetricSum = characteristicMetricSum.divide(new BigDecimal(profile.getCharacteristics().size() * 100), 5, RoundingMode.HALF_UP);
+                characteristicMetricSum = characteristicMetricSum.multiply(new BigDecimal(100));
                 profile.setPercent(characteristicMetricSum);
             }
 
-            applicantPercentSum.add(profile.getPercent());
+            applicantPercentSum = applicantPercentSum.add(profile.getPercent());
         }
 
         if (applicantPercentSum.compareTo(BigDecimal.ZERO) > 0) {

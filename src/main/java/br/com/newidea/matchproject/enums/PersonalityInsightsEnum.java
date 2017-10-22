@@ -16,7 +16,7 @@ public enum PersonalityInsightsEnum {
     ABERTURA_DESAFIO_A_AUTORIDADE("Abertura", "Desafio à autoridade"),
     //
 
-    AMABILIDADE_ALTRUISMO("Amabilidade", "Altruismo"),
+    AMABILIDADE_ALTRUISMO("Amabilidade", "Altruísmo"),
     AMABILIDADE_COOPERACAO("Amabilidade", "Cooperação"),
     AMABILIDADE_CONFIANCA("Amabilidade", "Confiança"),
     AMABILIDADE_DETERMINACAO("Amabilidade", "Determinação"),
@@ -44,7 +44,6 @@ public enum PersonalityInsightsEnum {
     FAIXA_EMOCIONAL_SUSCETIVEL_AO_STRESS("Faixa Emocional", "Suscetível ao stress"),
 
 
-
     NECESSIDADE_HARMONIA("Necessidade", "Harmonia"),
     NECESSIDADE_EMPOLGACAO("Necessidade", "Empolgação"),
     NECESSIDADE_ESTABILIDADE("Necessidade", "Estabilidade"),
@@ -55,11 +54,11 @@ public enum PersonalityInsightsEnum {
     NECESSIDADE_CURIOSIDADE("Necessidade", "Curiosidade"),
 
 
-
-    VALORES_ABERTURA_MUDANCA("", "Abertura a Mudança"),
+    VALORES_ABERTURA_MUDANCA("", "Abertura à mudança"),
     VALORES_CONSERVAÇÃO("", "Conservação"),
-    VALORES_AUTOCRESCIMENTO("", "Autocresimento"),
-    VALORES_AUTOTRANSCEDENCIA("", "Auto transcendência");
+
+    VALORES_AUTOCRESCIMENTO("", "Autocrescimento"),
+    VALORES_AUTOTRANSCEDENCIA("", "Autotranscendência");
     //
 
 

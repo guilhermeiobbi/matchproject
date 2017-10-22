@@ -1,8 +1,7 @@
 package br.com.newidea.matchproject.resource;
 
+import br.com.newidea.matchproject.domain.ApplicantEntity;
 import br.com.newidea.matchproject.dto.request.ApplicantRequestDTO;
-import br.com.newidea.matchproject.dto.response.ApplicantProfileMetricsResponseDTO;
-import br.com.newidea.matchproject.dto.response.ApplicantProfileTypeResponseDTO;
 import br.com.newidea.matchproject.dto.response.ApplicantRankingResponseDTO;
 import br.com.newidea.matchproject.service.ApplicantService;
 import br.com.newidea.matchproject.translator.ApplicantTranslator;
@@ -16,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -54,8 +51,6 @@ public class ApplicantResource {
     }
 
 
-
-
     @Metered
     @ExceptionMetered
     @GetMapping(path = "/ranking", produces = APPLICATION_JSON_VALUE)
@@ -64,40 +59,10 @@ public class ApplicantResource {
 
         log.info("ApplicantResource.ranking-start");
 
-        final List<ApplicantProfileMetricsResponseDTO> metrics = new ArrayList<ApplicantProfileMetricsResponseDTO>();
-        metrics.add(
-                ApplicantProfileMetricsResponseDTO.builder()
-                        .name("Amigável")
-                        .percent(new BigDecimal(100))
-                        .build()
-        );
-
-
-        final List<ApplicantProfileTypeResponseDTO> profileTypeResponseDTOS = new ArrayList<ApplicantProfileTypeResponseDTO>();
-        profileTypeResponseDTOS.add(
-                ApplicantProfileTypeResponseDTO.builder()
-                        .name("Digital")
-                        .percent(new BigDecimal(100))
-                        .metrics(metrics)
-                        .build()
-        );
-
-
-        final List<ApplicantRankingResponseDTO> applicantRankingResponseDTO = new ArrayList<ApplicantRankingResponseDTO>();
-
-        applicantRankingResponseDTO.add(
-
-                ApplicantRankingResponseDTO.builder()
-                        .applicandId(1L)
-                        .applicantName("Teste")
-                        .percent(new BigDecimal(100))
-                        .profiles(profileTypeResponseDTOS)
-                        .build()
-        );
-
+        List<ApplicantRankingResponseDTO> rankingResponseDTO = translator.toRankingDTO(service.findAllOrderByPercentDesc());
 
         log.info("ApplicantResource.ranking-end");
-        return ResponseEntity.ok(applicantRankingResponseDTO);
+        return ResponseEntity.ok(rankingResponseDTO);
     }
 
 

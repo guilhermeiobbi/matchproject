@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApplicantProfileMetricsResponseDTO {
+public class ApplicantCharacteristicMetricsResponseDTO {
 
     @JsonProperty("name")
     @ApiModelProperty(notes = "Nome da métrica analisada.", required = false, position = 0)
