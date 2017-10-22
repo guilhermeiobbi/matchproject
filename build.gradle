@@ -84,6 +84,9 @@ dependencies {
     compile(group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations')
     compile(group: 'com.fasterxml.jackson.jaxrs', name: 'jackson-jaxrs-json-provider')
 
+    // MySQL
+    runtime('mysql:mysql-connector-java')
+
     // h2
     compile('com.h2database:h2')
 
