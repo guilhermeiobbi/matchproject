@@ -12,14 +12,13 @@ import java.util.List;
 
 /**
  * @author fabio
- * @since 21/10/17 20:08
+ * @since 21/10/17 22:58
  */
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApplicantMetricsPersonalityRequestDTO {
+public class ApplicantMetricsValuesRequestDTO {
 
     @JsonProperty("trait_id")
     @ApiModelProperty(notes = "trait_id", example = "abc", required = false, position = 0)
@@ -47,5 +46,5 @@ public class ApplicantMetricsPersonalityRequestDTO {
 
     @JsonProperty("children")
     @ApiModelProperty(notes = "children", required = false, position = 6)
-    private List<ApplicantMetricsPersonalityRequestDTO> children;
+    private List<ApplicantMetricsValuesRequestDTO> children;
 }

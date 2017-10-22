@@ -1,6 +1,9 @@
 package br.com.newidea.matchproject.resource;
 
 import br.com.newidea.matchproject.dto.request.ApplicantRequestDTO;
+import br.com.newidea.matchproject.dto.response.ApplicantProfileMetricsResponseDTO;
+import br.com.newidea.matchproject.dto.response.ApplicantProfileTypeResponseDTO;
+import br.com.newidea.matchproject.dto.response.ApplicantRankingResponseDTO;
 import br.com.newidea.matchproject.service.ApplicantService;
 import br.com.newidea.matchproject.translator.ApplicantTranslator;
 import com.codahale.metrics.annotation.ExceptionMetered;
@@ -10,14 +13,12 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.net.URI;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -44,6 +45,8 @@ public class ApplicantResource {
     @ApiOperation(value = "Criação de um novo recurso applicant", responseReference = "URI do novo recurso criado.")
     public ResponseEntity<Void> create(@Valid @RequestBody ApplicantRequestDTO requestDTO) {
 
+        log.info("ApplicantResource.create-start");
+
 //        log.info("[ApplicantResource-create] Traduzindo requisição recebida, requestDTO={}", requestDTO);
 //        final ApplicantDTO applicantDTO = translator.toDTO(requestDTO);
 //
@@ -65,6 +68,74 @@ public class ApplicantResource {
 //        log.info("[ApplicantResource-create-end] Retornando novo URI, URI={}", uri);
 //        return ResponseEntity.created(uri).build();
 
+        log.info("ApplicantResource.create-end");
         return ResponseEntity.ok().build();
     }
+
+    @Metered
+    @ExceptionMetered
+    @GetMapping(path = "/ranking", produces = APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Ranking de candidatos e o percentual do seu perfil comportamentel comparado com a empresa.")
+    public ResponseEntity<List<ApplicantRankingResponseDTO>> ranking() {
+
+        log.info("ApplicantResource.ranking-start");
+
+        final List<ApplicantProfileMetricsResponseDTO> metrics = new ArrayList<ApplicantProfileMetricsResponseDTO>();
+        metrics.add(
+                ApplicantProfileMetricsResponseDTO.builder()
+                        .name("Amigável")
+                        .porcent(new BigDecimal(100))
+                        .build()
+        );
+
+
+        final List<ApplicantProfileTypeResponseDTO> profileTypeResponseDTOS = new ArrayList<ApplicantProfileTypeResponseDTO>();
+        profileTypeResponseDTOS.add(
+                ApplicantProfileTypeResponseDTO.builder()
+                        .name("Digital")
+                        .porcent(new BigDecimal(100))
+                        .metrics(metrics)
+                        .build()
+        );
+
+
+        final List<ApplicantRankingResponseDTO> applicantRankingResponseDTO = new ArrayList<ApplicantRankingResponseDTO>();
+
+        applicantRankingResponseDTO.add(
+
+                ApplicantRankingResponseDTO.builder()
+                        .applicandId(1L)
+                        .applicantName("Teste")
+                        .porcent(new BigDecimal(100))
+                        .profiles(profileTypeResponseDTOS)
+                        .build()
+        );
+
+//        log.info("[ApplicantResource-create] Traduzindo requisição recebida, requestDTO={}", requestDTO);
+//        final ApplicantDTO applicantDTO = translator.toDTO(requestDTO);
+//
+//        final ProposalDTO proposalDTO = proposalTranslator.toDTO(requestDTO.getInitialProposal());
+//
+//
+//        log.info("Acionando service, applicantDTO={}", applicantDTO);
+//        final ApplicantEntity entity = service.create(applicantDTO, proposalDTO);
+//
+//        log.info("Gerando novo URI criado, entity={}", entity);
+//        URI uri = ServletUriComponentsBuilder
+//                .fromCurrentRequest()
+//                .path("/{userClientId}/{userTattooistId}/{itemId}")
+//                .buildAndExpand(entity.getApplicantId().getUserClientId(),
+//                        entity.getApplicantId().getUserTattooistId(),
+//                        entity.getApplicantId().getItemId())
+//                .toUri();
+//
+//        log.info("[ApplicantResource-create-end] Retornando novo URI, URI={}", uri);
+//        return ResponseEntity.created(uri).build();
+
+
+        log.info("ApplicantResource.ranking-end");
+        return ResponseEntity.ok(applicantRankingResponseDTO);
+    }
+
+
 }

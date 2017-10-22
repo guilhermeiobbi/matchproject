@@ -1,11 +1,11 @@
 package br.com.newidea.matchproject.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import javax.validation.constraints.NotNull;
-import java.util.List;
+import lombok.NoArgsConstructor;
 
 /**
  * @author fabio
@@ -14,13 +14,16 @@ import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ApplicantRequestDTO {
 
-    @NotNull(message = "Campo \"name\" precisa ser informado.")
-    @ApiModelProperty(notes = "Nome do candidato.", example = "Fabio Miranda", required = true)
+    @JsonProperty("name")
+    @ApiModelProperty(notes = "Nome do candidato.", example = "Fabio Miranda", required = false, position = 0)
     private String name;
 
-    @NotNull(message = "Campo \"metrics\" precisa ser informado.")
-    @ApiModelProperty(notes = "Métricas do candidato.", example = "....", required = true)
-    private List<ApplicantMetricsRequestDTO> metrics;
+
+    @JsonProperty("metrics")
+    @ApiModelProperty(notes = "Métricas do candidato.", required = false, position = 1)
+    private ApplicantMetricsRequestDTO metrics;
 }
