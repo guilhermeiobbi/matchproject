@@ -59,12 +59,9 @@ public class ApplicantService {
             for (ApplicantCharacteristicEntity characteristic : profile.getCharacteristics()) {
 
                 BigDecimal percentMetricSum = new BigDecimal(0);
-                for (ApplicantCharacteristicMetricsEntity metric : characteristic.getMetrics()) {
+                for (ApplicantCharacteristicMetricsEntity metric : characteristic.getMetrics())
+                    percentMetricSum = percentMetricSum.add(new BigDecimal(metric.getPercent().toString()));
 
-                    BigDecimal b = metric.getPercent();
-
-                    percentMetricSum = percentMetricSum.add(new BigDecimal(b.toString()));
-                }
 
                 if (percentMetricSum.compareTo(BigDecimal.ZERO) > 0) {
                     percentMetricSum = percentMetricSum.divide(new BigDecimal(characteristic.getMetrics().size() * 100), 5, RoundingMode.HALF_UP);
@@ -85,8 +82,8 @@ public class ApplicantService {
         }
 
         if (applicantPercentSum.compareTo(BigDecimal.ZERO) > 0) {
-            applicantPercentSum.divide(new BigDecimal(applicantEntity.getProfiles().size() * 100));
-            applicantPercentSum.multiply(new BigDecimal(100));
+            applicantPercentSum = applicantPercentSum.divide(new BigDecimal(applicantEntity.getProfiles().size() * 100));
+            applicantPercentSum = applicantPercentSum.multiply(new BigDecimal(100));
             applicantEntity.setPercent(applicantPercentSum);
         }
 
@@ -99,10 +96,10 @@ public class ApplicantService {
 
         ApplicantProfileTypeEntity profileTypeEntity = ApplicantProfileTypeEntity.builder()
                 .applicant(applicant)
-                .name(ProfileTypeEnum.EMPLOYER_BRADING.getName())
+                .name(ProfileTypeEnum.EMPLOYER_BRANDING.getName())
                 .percent(new BigDecimal(0))
                 .build();
-        profileTypeEntity.setCharacteristics(getCharacteristics(ProfileTypeEnum.EMPLOYER_BRADING, profileTypeEntity, requestDTO));
+        profileTypeEntity.setCharacteristics(getCharacteristics(ProfileTypeEnum.EMPLOYER_BRANDING, profileTypeEntity, requestDTO));
         profiles.add(profileTypeEntity);
 
         profileTypeEntity = ApplicantProfileTypeEntity.builder()
@@ -167,7 +164,7 @@ public class ApplicantService {
                 break;
 
 
-            case EMPLOYER_BRADING:
+            case EMPLOYER_BRANDING:
                 characteristic = ApplicantCharacteristicEntity.builder()
                         .profile(profileTypeEntity)
                         .name(ProfileCharacteristicEnum.COLABORATIVO.getName())
@@ -1348,7 +1345,7 @@ public class ApplicantService {
         final ApplicantCharacteristicMetricsEntity metric = ApplicantCharacteristicMetricsEntity.builder()
                 .characteristic(characteristic)
                 .name(personalityInsights.getItem())
-                .percent(getRequestPercent(personalityInsights, requestDTO))
+                .percent(getRequestPercent(personalityInsights, requestDTO).multiply(new BigDecimal(100)))
                 .build();
         return metric;
     }

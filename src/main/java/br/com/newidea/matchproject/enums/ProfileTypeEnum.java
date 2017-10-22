@@ -10,7 +10,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ProfileTypeEnum {
 
-    EMPLOYER_BRADING("Employer Brading"),
+    EMPLOYER_BRANDING("Employer Branding"),
     DIGITAL("Digital"),
     FAST_PLAY("Fast Play"),
     EXPERIAN_WAY("Experian Way");
