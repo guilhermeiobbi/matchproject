@@ -24,7 +24,7 @@ public class ApplicantProfileMetricsResponseDTO {
     @ApiModelProperty(notes = "Nome da métrica analisada.", required = false, position = 0)
     private String name;
 
-    @JsonProperty("porcent")
+    @JsonProperty("percent")
     @ApiModelProperty(notes = "Percentual obtido nesta métrica pelo candidato.", required = false, position = 1)
-    private BigDecimal porcent;
+    private BigDecimal percent;
 }

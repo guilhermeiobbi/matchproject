@@ -26,7 +26,7 @@ public class ApplicantProfileTypeResponseDTO {
     private String name;
 
     @ApiModelProperty(notes = "Percentual analisado.", required = false, position = 0)
-    private BigDecimal porcent;
+    private BigDecimal percent;
 
 
     private List<ApplicantProfileMetricsResponseDTO> metrics;

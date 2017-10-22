@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Entity(name = "applicantMetrics")
 @Table(name = "applicant_profile_metrics_apm")
-public class ApplicantProfileMetricsEntity {
+public class ApplicantCharacteristicMetricsEntity {
 
     @Id
     @Column(name = "apm_id")
@@ -25,12 +25,12 @@ public class ApplicantProfileMetricsEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "apm_applicant_profile_id", referencedColumnName = "apt_id")
-    private ApplicantProfileType profiles;
+    @JoinColumn(name = "apm_applicant_profile_id", referencedColumnName = "acc_id")
+    private ApplicantCharacteristicEntity characteristic;
 
     @Column(name = "apm_name", length = 250)
     private String name;
 
-    @Column(name = "apm_porcent")
-    private BigDecimal porcent;
+    @Column(name = "apm_percent")
+    private BigDecimal percent;
 }

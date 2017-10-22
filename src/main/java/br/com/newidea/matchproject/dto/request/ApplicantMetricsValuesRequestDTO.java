@@ -43,8 +43,4 @@ public class ApplicantMetricsValuesRequestDTO {
     @JsonProperty("significant")
     @ApiModelProperty(notes = "significant", example = "true", dataType = "boolean", required = false, position = 5)
     private boolean significant;
-
-    @JsonProperty("children")
-    @ApiModelProperty(notes = "children", required = false, position = 6)
-    private List<ApplicantMetricsValuesRequestDTO> children;
 }

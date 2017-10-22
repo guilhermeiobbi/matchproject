@@ -29,9 +29,9 @@ public class ApplicantRankingResponseDTO {
     @ApiModelProperty(notes = "Nome do candidato.", example = "Giobbi", required = false, position = 1)
     private String applicantName;
 
-    @JsonProperty("porcent")
+    @JsonProperty("percent")
     @ApiModelProperty(notes = "Percentual de match entre candidato e empresa.", example = "100.00", dataType = "numeric", required = false, position = 2)
-    private BigDecimal porcent;
+    private BigDecimal percent;
 
     @JsonProperty("profiles")
     @ApiModelProperty(notes = "Perfis analisados do candidato para traçar seu perfil comportamental.", required = false, position = 3)

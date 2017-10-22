@@ -3,6 +3,7 @@ package br.com.newidea.matchproject.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -27,6 +28,9 @@ public class ApplicantEntity {
     @Column(name = "app_name", length = 250)
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "applicant", orphanRemoval = true)
-    private List<ApplicantProfileType> profiles;
+    @Column(name = "app_percent")
+    private BigDecimal percent;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "applicant", orphanRemoval = true)
+    private List<ApplicantProfileTypeEntity> profiles;
 }

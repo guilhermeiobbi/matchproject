@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity(name = "applicantProfile")
 @Table(name = "applicant_profile_apt")
-public class ApplicantProfileType {
+public class ApplicantProfileTypeEntity {
 
     @Id
     @Column(name = "apt_id")
@@ -32,9 +32,9 @@ public class ApplicantProfileType {
     @Column(name = "apt_name", length = 250)
     private String name;
 
-    @Column(name = "apt_porcent")
-    private BigDecimal porcent;
+    @Column(name = "apt_percent")
+    private BigDecimal percent;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "profiles", orphanRemoval = true)
-    private List<ApplicantProfileMetricsEntity> metrics;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "profile", orphanRemoval = true)
+    private List<ApplicantCharacteristicEntity> characteristics;
 }

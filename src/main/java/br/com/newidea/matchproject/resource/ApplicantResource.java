@@ -47,30 +47,14 @@ public class ApplicantResource {
 
         log.info("ApplicantResource.create-start");
 
-//        log.info("[ApplicantResource-create] Traduzindo requisição recebida, requestDTO={}", requestDTO);
-//        final ApplicantDTO applicantDTO = translator.toDTO(requestDTO);
-//
-//        final ProposalDTO proposalDTO = proposalTranslator.toDTO(requestDTO.getInitialProposal());
-//
-//
-//        log.info("Acionando service, applicantDTO={}", applicantDTO);
-//        final ApplicantEntity entity = service.create(applicantDTO, proposalDTO);
-//
-//        log.info("Gerando novo URI criado, entity={}", entity);
-//        URI uri = ServletUriComponentsBuilder
-//                .fromCurrentRequest()
-//                .path("/{userClientId}/{userTattooistId}/{itemId}")
-//                .buildAndExpand(entity.getApplicantId().getUserClientId(),
-//                        entity.getApplicantId().getUserTattooistId(),
-//                        entity.getApplicantId().getItemId())
-//                .toUri();
-//
-//        log.info("[ApplicantResource-create-end] Retornando novo URI, URI={}", uri);
-//        return ResponseEntity.created(uri).build();
+        service.process(requestDTO);
 
         log.info("ApplicantResource.create-end");
         return ResponseEntity.ok().build();
     }
+
+
+
 
     @Metered
     @ExceptionMetered
@@ -84,7 +68,7 @@ public class ApplicantResource {
         metrics.add(
                 ApplicantProfileMetricsResponseDTO.builder()
                         .name("Amigável")
-                        .porcent(new BigDecimal(100))
+                        .percent(new BigDecimal(100))
                         .build()
         );
 
@@ -93,7 +77,7 @@ public class ApplicantResource {
         profileTypeResponseDTOS.add(
                 ApplicantProfileTypeResponseDTO.builder()
                         .name("Digital")
-                        .porcent(new BigDecimal(100))
+                        .percent(new BigDecimal(100))
                         .metrics(metrics)
                         .build()
         );
@@ -106,31 +90,10 @@ public class ApplicantResource {
                 ApplicantRankingResponseDTO.builder()
                         .applicandId(1L)
                         .applicantName("Teste")
-                        .porcent(new BigDecimal(100))
+                        .percent(new BigDecimal(100))
                         .profiles(profileTypeResponseDTOS)
                         .build()
         );
-
-//        log.info("[ApplicantResource-create] Traduzindo requisição recebida, requestDTO={}", requestDTO);
-//        final ApplicantDTO applicantDTO = translator.toDTO(requestDTO);
-//
-//        final ProposalDTO proposalDTO = proposalTranslator.toDTO(requestDTO.getInitialProposal());
-//
-//
-//        log.info("Acionando service, applicantDTO={}", applicantDTO);
-//        final ApplicantEntity entity = service.create(applicantDTO, proposalDTO);
-//
-//        log.info("Gerando novo URI criado, entity={}", entity);
-//        URI uri = ServletUriComponentsBuilder
-//                .fromCurrentRequest()
-//                .path("/{userClientId}/{userTattooistId}/{itemId}")
-//                .buildAndExpand(entity.getApplicantId().getUserClientId(),
-//                        entity.getApplicantId().getUserTattooistId(),
-//                        entity.getApplicantId().getItemId())
-//                .toUri();
-//
-//        log.info("[ApplicantResource-create-end] Retornando novo URI, URI={}", uri);
-//        return ResponseEntity.created(uri).build();
 
 
         log.info("ApplicantResource.ranking-end");
