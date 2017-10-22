@@ -1,6 +1,5 @@
 package br.com.newidea.matchproject.resource;
 
-import br.com.newidea.matchproject.domain.ApplicantEntity;
 import br.com.newidea.matchproject.dto.request.ApplicantRequestDTO;
 import br.com.newidea.matchproject.dto.response.ApplicantRankingResponseDTO;
 import br.com.newidea.matchproject.service.ApplicantService;
@@ -12,7 +11,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -38,16 +40,16 @@ public class ApplicantResource {
 
     @Metered
     @ExceptionMetered
-    @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @GetMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Criação de um novo recurso applicant", responseReference = "URI do novo recurso criado.")
-    public ResponseEntity<Void> create(@Valid @RequestBody ApplicantRequestDTO requestDTO) {
+    public ResponseEntity<ApplicantRequestDTO> create(@Valid @RequestBody ApplicantRequestDTO requestDTO) {
 
         log.info("ApplicantResource.create-start");
 
         service.process(requestDTO);
 
         log.info("ApplicantResource.create-end");
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(requestDTO);
     }
 
 
